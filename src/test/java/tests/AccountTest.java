@@ -5,28 +5,29 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 
 public class AccountTest extends BaseTest {
+    String ACCOUNT_GET_URL = "/account/{username}";
 
     @Test
     void getAccountInfoTest() {
         given()
-                .header("Authorization", token)
+                .spec(requestSpecificationWithAuth)
                 .when()
-                .get("https://api.imgur.com/3/account/{username}", username)
+                .get(ACCOUNT_GET_URL, username)
                 .then()
-                .statusCode(200);
+                .spec(positiveResponseSpecification);
     }
 
     @Test
     void getAccountInfoWithLogingTest() {
         given()
-                .header("Authorization", token)
+                .spec(requestSpecificationWithAuth)
                 .log()
                 .method()
                 .log()
                 .uri()
                 .when()
-                .get("https://api.imgur.com/3/account/{username}", username)
+                .get(ACCOUNT_GET_URL, username)
                 .then()
-                .statusCode(200);
+                .spec(positiveResponseSpecification);
     }
 }
